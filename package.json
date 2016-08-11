@@ -1,0 +1,22 @@
+{
+  "name": "scoreboard",
+  "version": "1.0.0",
+  "description": "A score board app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bram-Anhinga/scoreboard.git"
+  },
+  "keywords": [
+    "scoreboard"
+  ],
+  "author": "Bram De Nyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bram-Anhinga/scoreboard/issues"
+  },
+  "homepage": "https://github.com/Bram-Anhinga/scoreboard#readme"
+}
