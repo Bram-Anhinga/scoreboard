@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' href='/css/bootstrap.css' />
+    <link rel='stylesheet' href='/css/style.css' />
+
+  </head>
+  <body>
+    <h1><%= title %></h1>
+
+    <ng-view></ng-view>
+
+    <!-- Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+
+    <!-- Template -->
+    <script type="text/ng-template" id="/games.html">
+
+      <div class="form-group container">
+        <label for="search" class="input_label">Search</label>
+        <input type="text" ng-model="search.name" id="search" class="form-control">
+      </div>
+
+      <ul class="container list-unstyled">
+        <li ng-repeat="game in games | filter: search">
+
+          <blockquote>
+
+            <a ng-show="!editing[$index]" href="#/{{game._id}}" class="lead">{{game.name}}</a>
+
+          </blockquote>
+
+        </li>
+      </ul>
+
+    </script>
+
+    <script type="text/ng-template" id="/gameDetails.html">
+
+      <div class="mainWrapper">
+
+        <h2 class="lead">{{ game.name }}</h2>
+
+        <div class="scoreWrapper">
+
+          <img ng-src="images/{{game.teamA}}.png" alt="National flag of {{game.teamA}}">
+          <h3 class="scoreTitle">{{game.teamA}}</h3>
+          <h3 class="scoreTitle">{{game.scoreA}}</h3>
+          <h3 class="scoreTitle">-</h3>
+          <h3 class="scoreTitle">{{game.scoreB}}</h3>
+          <h3 class="scoreTitle">{{game.teamB}}</h3>
+          <img ng-src="images/{{game.teamB}}.png" alt="National flag of {{game.teamB}}">
+
+        </div>
+
+        <div class="detailMainWrapper">
+
+          <div class="detailWrapper">
+
+            <h3 class="scoreTitle">{{game.shotsA}}</h3>
+            <h3 class="scoreTitle">Total shots</h3>
+            <h3 class="scoreTitle">{{game.shotsB}}</h3>
+
+          </div>
+
+          <div class="detailWrapper">
+
+            <h3 class="scoreTitle">{{game.faulsA}}</h3>
+            <h3 class="scoreTitle">Fauls</h3>
+            <h3 class="scoreTitle">{{game.faulsB}}</h3>
+
+          </div>
+
+        </div>
+
+        <div class="scoreWrapper">
+
+          <h4 class="text-uppercase"><smal><strong>Real time updates</strong></smal></h4>
+
+          <ul class="container list-unstyled">
+
+            <li ng-repeat=" comment in game.comments">
+
+              <blockquote>
+
+                <p>{{comment.value}}</p>
+
+              </blockquote>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </script>
+
+    <script>
+      angular.module('app', ['ngRoute', 'ngResource'])
+
+        //---------------
+        // Services
+        //---------------
+
+        .factory('Games', ['$resource', function($resource){
+          return $resource('/games/:id', null, {
+            'update': { method:'PUT' }
+          });
+        }])
+
+        //---------------
+        // Controllers
+        //---------------
+
+        .controller('GameController', ['$scope', 'Games', function ($scope, Games) {
+          $scope.editing = [];
+          $scope.games = Games.query();
+
+          $scope.save = function(){
+            if(!$scope.gameName || $scope.gameName.length < 1) return;
+            var game = new Games({
+                                    name: $scope.gameName,
+                                    teamA: $scope.teamA,
+                                    teamB: $scope.teamB,
+                                    scoreA: 0,
+                                    scoreB: 0,
+                                    shotsA: 0,
+                                    shotsB: 0,
+                                    faulsA: 0,
+                                    faulsB: 0
+                                  });
+
+            game.$save(function(){
+              $scope.games.push(game);
+              $scope.gameName = ''; // clear textbox
+            });
+          }
+
+          $scope.update = function(index){
+            var game = $scope.games[index];
+            Games.update({id: game._id}, game);
+            $scope.editing[index] = false;
+          }
+
+          $scope.edit = function(index){
+            $scope.editing[index] = angular.copy($scope.games[index]);
+          }
+
+          $scope.cancel = function(index){
+            $scope.games[index] = angular.copy($scope.editing[index]);
+            $scope.editing[index] = false;
+          }
+
+          $scope.remove = function(index){
+            var games = $scope.games[index];
+            Games.remove({id: game._id}, function(){
+              $scope.games.splice(index, 1);
+            });
+          }
+        }])
+
+        .controller('GameDetailCtrl', ['$scope', '$routeParams', 'Games', '$location', function ($scope, $routeParams, Games, $location) {
+          $scope.game = Games.get({id: $routeParams.id });
+
+          $scope.remove = function(){
+            Games.remove({id: $scope.game._id}, function(){
+              $location.url('/');
+            });
+          }
+        }])
+
+        //---------------
+        // Routes
+        //---------------
+
+        .config(['$routeProvider', function ($routeProvider) {
+          $routeProvider
+            .when('/', {
+              templateUrl: '/games.html',
+              controller: 'GameController'
+            })
+
+            .when('/:id', {
+              templateUrl: '/gameDetails.html',
+              controller: 'GameDetailCtrl'
+           });
+        }]);
+    </script>
+  </body>
+</html>
