@@ -171,7 +171,7 @@
               <div class="form__group">
 
                 <label class="input__label">Comments</label>
-                <ul class="comments__list">
+                <ul class="comments__list"  id="comments__list">
                   <li ng-repeat=" comment in game.comments">
                     <blockquote>
                       <p>{{comment.value}}</p>
@@ -390,5 +390,8 @@
 
     <script src="scripts/main.js"></script>
 
+
+    <script src="/socket.io/socket.io.js"></script>
+    
   </body>
 </html>
