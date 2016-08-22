@@ -1,0 +1,151 @@
+@charset "UTF-8";
+@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700';
+body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", Montserrat, Helvetica, Arial, sans-serif;
+  color: #444; }
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+h1 {
+  margin-left: 50px; }
+
+h2 {
+  margin-left: 50px;
+  width: 80%; }
+
+a {
+  text-decoration: none; }
+
+textarea, input, button {
+  outline: none; }
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #e0e0e0;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "“" "”" "‘" "’"; }
+
+blockquote a {
+  display: block;
+  color: #189ddc; }
+
+.page {
+  flex-grow: 1; }
+
+.content__wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-around; }
+
+.nav {
+  display: block;
+  height: 100vh;
+  width: 8%;
+  padding: 20px;
+  background-color: #F8F8F8;
+  border-right: 1px solid #dfdfdf; }
+
+.nav__list {
+  display: block;
+  list-style: none; }
+
+.nav__link {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+  color: #189ddc;
+  text-align: center;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px; }
+
+.nav__link:hover {
+  background-color: #3db2ea; }
+
+.form, .container, .container__comments {
+  display: block;
+  width: 500px;
+  background-color: #F8F8F8;
+  border: 1px solid #dfded4;
+  border-radius: 5px;
+  padding: 20px; }
+
+.form__group {
+  margin: 10px 0; }
+
+.form__title {
+  color: #777777;
+  font-size: 20px;
+  line-height: 20px; }
+
+.input__label {
+  display: block;
+  color: #777777; }
+
+.input__text {
+  display: block;
+  width: 100%;
+  padding: 3px;
+  border: 1px solid #dfded4;
+  border-radius: 5px; }
+
+.btn, .btn__primary, .btn__success, .btn__warning, .btn__danger, .btn__small, .game__info__counter {
+  display: inline;
+  padding: 5px;
+  margin: 5px 5px 0 0;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px; }
+
+.btn__primary {
+  background-color: #189ddc;
+  border: 1px solid #137cae;
+  color: white; }
+
+.btn__success {
+  background-color: #6ffd70;
+  border: 1px solid #3dfc3e;
+  color: white; }
+
+.btn__warning {
+  background-color: #fc9526;
+  border: 1px solid #ec7c03;
+  color: white; }
+
+.btn__danger {
+  background-color: #fc314a;
+  border: 1px solid #f60421;
+  color: white; }
+
+.btn__small {
+  width: 30px;
+  height: 30px; }
+
+.game__info__counter {
+  display: inline-block;
+  width: 30px;
+  text-align: center; }
+
+.container, .container__comments {
+  width: 200px; }
+
+.container__comments {
+  width: 600px; }
+
+.comments__list {
+  height: 230px;
+  overflow-y: scroll;
+  background-color: white; }
+
+.flag__mini {
+  width: 25px;
+  border-radius: 3px;
+  margin-right: 5px; }

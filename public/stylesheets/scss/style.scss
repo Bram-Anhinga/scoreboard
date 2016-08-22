@@ -201,16 +201,22 @@ blockquote a {
 
 .container{
   @extend .form;
-  width: 150px;
+  width: 200px;
 }
 
 .container__comments{
   @extend .container;
-  width: 700px;
+  width: 400px;
 }
 
 .comments__list{
   height: 230px;
   overflow-y: scroll;
   background-color: lighten($container_background, 3%);
+}
+
+.flag__mini{
+  width: 25px;
+  border-radius: 3px;
+  margin-right: 5px;
 }
