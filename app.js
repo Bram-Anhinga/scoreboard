@@ -4,6 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var http = require('http');
+var socketio = require('socket.io');
+//var applicationModuleVendorDependencies = require('angular-socket-io');
+
 
 var routes = require('./routes/index');
 var games = require('./routes/games');
@@ -65,12 +69,18 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// Attach Socket.io
+var server = http.createServer(app);
+var io = socketio.listen(server);
+app.set('socketio', io);
+app.set('server', server);
 
 app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function() {
+app.get('server').listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
 });
+
+
 
 
 

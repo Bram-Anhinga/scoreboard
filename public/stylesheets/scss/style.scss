@@ -1,0 +1,216 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700';
+
+// COLORS
+$site_background: #fff;
+
+$text: #444;
+
+$nav-color: #189ddc;
+$nav-link-color: #F8F8F8;
+
+$btn_normal: #fff;
+$btn_primary: #189ddc;
+$btn_succes: #6ffd70;
+$btn_warning: #fc9526;
+$btn_danger: #fc314a;
+
+
+$link: #189ddc;
+
+$container_background: #F8F8F8;
+$container_border: #dfded4;
+
+$blockquote-color: #f9f9f9;
+
+// FONTS
+$font-Montserrat: "Montserrat", Montserrat, Helvetica, Arial, sans-serif;
+
+// OTHERS
+$radius: 5px;
+
+// SCSS
+body{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  font-family: $font-Montserrat;
+  color: $text;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  margin-left: 50px;
+}
+
+h2{
+  margin-left: 50px;
+
+width: 80%;
+}
+
+a{
+  text-decoration: none;
+}
+
+textarea, input, button { outline: none; }
+
+blockquote {
+  background: $blockquote-color;
+  border-left: 10px solid darken($blockquote-color, 10%);
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote a {
+  display: block;
+  color: $link;
+}
+
+.page{
+  flex-grow: 1;
+}
+
+.content__wrapper{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.nav{
+  display: block;
+  height: 100vh;
+  width: 8%;
+
+  padding: 20px;
+
+  background-color: $nav-color;
+  border-right: 1px solid darken($nav-color, 10%);
+}
+
+.nav__list{
+  display: block;
+  list-style: none;
+}
+
+.nav__link{
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+  color: $nav-link-color;
+  text-align: center;
+
+  border: 1px solid darken($nav-color, 10%);
+  border-radius: $radius;
+}
+
+.nav__link:hover{
+  background-color: lighten($btn_primary, 10%);
+}
+
+.form{
+  display: block;
+  width: 500px;
+  background-color: $container_background;
+  border: 1px solid $container_border;
+  border-radius: $radius;
+  padding: 20px;
+}
+
+.form__group{
+  margin: 10px 0;
+}
+
+.form__title{
+
+  color: lighten($text, 20%);
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.input__label{
+  display: block;
+  color: lighten($text, 20%);
+}
+
+.input__text{
+  display: block;
+  width: 100%;
+  padding: 3px;
+  border: 1px solid $container_border;
+  border-radius: $radius;
+}
+
+.btn{
+  display: inline;
+  padding: 5px;
+  margin: 5px 5px 0 0;
+  background-color: $btn_normal;
+  border: 1px solid darken($btn_normal, 10%);
+  border-radius: $radius;
+}
+
+.btn__primary{
+  @extend .btn;
+  background-color: $btn_primary;
+  border: 1px solid darken($btn_primary, 10%);
+  color: white;
+}
+
+.btn__success{
+  @extend .btn;
+  background-color: $btn_succes;
+  border: 1px solid darken($btn_succes, 10%);
+  color: white;
+}
+
+.btn__warning{
+  @extend .btn;
+  background-color: $btn_warning;
+  border: 1px solid darken($btn_warning, 10%);
+  color: white;
+}
+
+.btn__danger{
+  @extend .btn;
+  background-color: $btn_danger;
+  border: 1px solid darken($btn_danger, 10%);
+  color: white;
+}
+
+.btn__small{
+  @extend .btn;
+  width: 30px;
+  height: 30px;
+}
+
+.game__info__counter{
+  @extend  .btn;
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+
+}
+
+.container{
+  @extend .form;
+  width: 150px;
+}
+
+.container__comments{
+  @extend .container;
+  width: 700px;
+}
+
+.comments__list{
+  height: 230px;
+  overflow-y: scroll;
+  background-color: lighten($container_background, 3%);
+}

@@ -5,105 +5,150 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel='stylesheet' href='/css/bootstrap.css' />
-    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/stylesheets/css/style.css' />
 
   </head>
   <body>
-    <h1><%= title %></h1>
 
-    <ng-view></ng-view>
-
-    <!-- Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
-
-    <!-- Template -->
-    <script type="text/ng-template" id="/games.html">
-
-      <div class="form-group container">
-        <label for="search" class="input_label">Search</label>
-        <input type="text" ng-model="search.name" id="search" class="form-control">
-      </div>
-
-      <ul class="container list-unstyled">
-        <li ng-repeat="game in games | filter: search">
-
-          <blockquote>
-
-            <a ng-show="!editing[$index]" href="#/{{game._id}}" class="lead">{{game.name}}</a>
-
-          </blockquote>
-
-        </li>
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__list__item"><a href="/admin" class="nav__link">Admin</a></li>
+        <li class="nav__list__item"><a href="/scoreboard" class="nav__link">Scoreboard</a></li>
       </ul>
+    </nav>
 
-    </script>
+      <div class="page">
 
-    <script type="text/ng-template" id="/gameDetails.html">
+        <h1><%= title %></h1>
 
-      <div class="mainWrapper">
+        <ng-view></ng-view>
 
-        <h2 class="lead">{{ game.name }}</h2>
+        <!-- Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
 
-        <div class="scoreWrapper">
+        <!-- Socket.io -->
+        <script type="text/javascript" src="http://vexxhost.com/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="http://vexxhost.com/lib/angular-socket-io/socket.min.js"></script>
 
-          <img ng-src="images/{{game.teamA}}.png" alt="National flag of {{game.teamA}}">
-          <h3 class="scoreTitle">{{game.teamA}}</h3>
-          <h3 class="scoreTitle">{{game.scoreA}}</h3>
-          <h3 class="scoreTitle">-</h3>
-          <h3 class="scoreTitle">{{game.scoreB}}</h3>
-          <h3 class="scoreTitle">{{game.teamB}}</h3>
-          <img ng-src="images/{{game.teamB}}.png" alt="National flag of {{game.teamB}}">
+        <!-- Templates -->
+        <script type="text/ng-template" id="/games.html">
 
-        </div>
+          <div class="content__wrapper">
 
-        <div class="detailMainWrapper">
+          <div class="form">
 
-          <div class="detailWrapper">
+            <div class="form__search">
+              <label for="search" class="input__label">Search</label>
+              <input type="text" ng-model="search.name" id="search" class="input__text">
+            </div>
 
-            <h3 class="scoreTitle">{{game.shotsA}}</h3>
-            <h3 class="scoreTitle">Total shots</h3>
-            <h3 class="scoreTitle">{{game.shotsB}}</h3>
+            <ul>
+              <li ng-repeat="game in games | filter: search">
+
+                <blockquote>
+
+                  <a ng-show="!editing[$index]" href="#/{{game._id}}">{{game.name}}</a>
+
+                </blockquote>
+
+              </li>
+            </ul>
 
           </div>
-
-          <div class="detailWrapper">
-
-            <h3 class="scoreTitle">{{game.faulsA}}</h3>
-            <h3 class="scoreTitle">Fauls</h3>
-            <h3 class="scoreTitle">{{game.faulsB}}</h3>
-
-          </div>
-
-        </div>
-
-        <div class="scoreWrapper">
-
-          <h4 class="text-uppercase"><smal><strong>Real time updates</strong></smal></h4>
-
-          <ul class="container list-unstyled">
-
-            <li ng-repeat=" comment in game.comments">
-
-              <blockquote>
-
-                <p>{{comment.value}}</p>
-
-              </blockquote>
-
-            </li>
-
-          </ul>
-
-        </div>
 
       </div>
 
-    </script>
+      </script>
+
+      <script type="text/ng-template" id="/gameDetails.html">
+
+        <div class="page">
+
+          <h2 class="">{{game.name}}</h2>
+
+          <div class="content__wrapper">
+
+            <div class="container">
+
+              <p class="form__title">{{game.teamA}}</p>
+
+              <div class="form__group">
+
+                <label for="gameName" class="input__label">Goals</label>
+                <p class="game__info__counter">{{game.scoreA}}</p>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Shots</label>
+                <p class="game__info__counter">{{game.shotsA}}</p>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Fauls</label>
+                <p class="game__info__counter">{{game.faulsA}}</p>
+
+              </div>
+
+            </div>
+
+            <div class="container">
+
+              <p class="form__title">{{game.teamB}}</p>
+
+              <div class="form__group">
+
+                <label for="gameName" class="input__label">Goals</label>
+                <p class="game__info__counter">{{game.scoreB}}</p>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Shots</label>
+                <p class="game__info__counter">{{game.shotsB}}</p>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Fauls</label>
+                <p class="game__info__counter">{{game.faulsB}}</p>
+
+              </div>
+
+            </div>
+
+            <div class="container container__comments">
+
+              <div class="form__group">
+
+                <label class="input__label">Comments</label>
+                <ul class="comments__list">
+                  <li ng-repeat=" comment in game.comments">
+                    <blockquote>
+                      <p>{{comment.value}}</p>
+                    </blockquote>
+                  </li>
+                </ul>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </script>
 
     <script>
+
       angular.module('app', ['ngRoute', 'ngResource'])
 
         //---------------
@@ -120,61 +165,16 @@
         // Controllers
         //---------------
 
+        //.controller('GameController', ['$scope', 'Games', 'Socket', function ($scope, Games, Socket) {
         .controller('GameController', ['$scope', 'Games', function ($scope, Games) {
           $scope.editing = [];
           $scope.games = Games.query();
 
-          $scope.save = function(){
-            if(!$scope.gameName || $scope.gameName.length < 1) return;
-            var game = new Games({
-                                    name: $scope.gameName,
-                                    teamA: $scope.teamA,
-                                    teamB: $scope.teamB,
-                                    scoreA: 0,
-                                    scoreB: 0,
-                                    shotsA: 0,
-                                    shotsB: 0,
-                                    faulsA: 0,
-                                    faulsB: 0
-                                  });
-
-            game.$save(function(){
-              $scope.games.push(game);
-              $scope.gameName = ''; // clear textbox
-            });
-          }
-
-          $scope.update = function(index){
-            var game = $scope.games[index];
-            Games.update({id: game._id}, game);
-            $scope.editing[index] = false;
-          }
-
-          $scope.edit = function(index){
-            $scope.editing[index] = angular.copy($scope.games[index]);
-          }
-
-          $scope.cancel = function(index){
-            $scope.games[index] = angular.copy($scope.editing[index]);
-            $scope.editing[index] = false;
-          }
-
-          $scope.remove = function(index){
-            var games = $scope.games[index];
-            Games.remove({id: game._id}, function(){
-              $scope.games.splice(index, 1);
-            });
-          }
         }])
 
         .controller('GameDetailCtrl', ['$scope', '$routeParams', 'Games', '$location', function ($scope, $routeParams, Games, $location) {
           $scope.game = Games.get({id: $routeParams.id });
 
-          $scope.remove = function(){
-            Games.remove({id: $scope.game._id}, function(){
-              $location.url('/');
-            });
-          }
         }])
 
         //---------------
@@ -194,5 +194,8 @@
            });
         }]);
     </script>
+
+    <script src="scripts/main.js"></script>
+
   </body>
 </html>

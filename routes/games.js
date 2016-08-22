@@ -15,6 +15,11 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   Game.create(req.body, function (err, post) {
     if (err) return next(err);
+
+    //socket.io part
+    //var socketio = req.app.get('socketio'); // tacke out socket instance from the app container
+    //socketio.sockets.emit('game.created', post); // emit an event for all connected clients
+
     res.json(post);
   });
 });

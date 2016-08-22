@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Bram-Anhinga/scoreboard#readme",
   "dependencies": {
+    "angular": "^1.5.8",
+    "angular-socket-io": "^0.7.0",
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",

@@ -5,183 +5,199 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel='stylesheet' href='/css/bootstrap.css' />
-    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/stylesheets/css/style.css' />
 
   </head>
   <body>
-    <h1><%= title %></h1>
 
-    <ng-view></ng-view>
-
-    <!-- Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
-
-    <!-- Templates -->
-    <script type="text/ng-template" id="/games.html">
-
-      <div class="form-group container">
-        <label for="search" class="input_label">Search</label>
-        <input type="text" ng-model="search.name" id="search" class="form-control">
-      </div>
-
-      <ul class="container list-unstyled">
-        <li ng-repeat="game in games | filter: search">
-
-          <blockquote>
-
-            <a ng-show="!editing[$index]" href="#/{{game._id}}" class="lead">{{game.name}}</a>
-            <button ng-show="!editing[$index]" ng-click="edit($index)" class="btn btn-info btn-xs">edit</button>
-
-            <input ng-show="editing[$index]" type="text" ng-model="game.name">
-            <button ng-show="editing[$index]" ng-click="update($index)" class="btn btn-primary btn-xs">Update</button>
-            <button ng-show="editing[$index]" ng-click="cancel($index)" class="btn btn-warning btn-xs">Cancel</button>
-            <button ng-show="!editing[$index]" ng-click="remove($index)" class="btn btn-danger btn-xs">remove</button>
-
-        </blockquote>
-
-        </li>
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__list__item"><a href="/admin" class="nav__link">Admin</a></li>
+        <li class="nav__list__item"><a href="/scoreboard" class="nav__link">Scoreboard</a></li>
       </ul>
+    </nav>
 
-      <div class="container form">
+      <div class="page">
 
-        <p class="lead">New game</p>
+        <h1><%= title %></h1>
 
-        <div class="form-group">
-          <label for="gameName" class="input_label">Game name</label>
-          <input type="text" ng-model="gameName" id="gameName" class="form-control">
-        </div>
+        <ng-view></ng-view>
 
-        <div class="form-group">
-          <label for="teamA" class="input_label">Team A</label>
-          <input type="text" ng-model="teamA" id="teamA" class="form-control">
-        </div>
+        <!-- Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
 
-        <div class="form-group">
-          <label for="teamB" class="input_label">Team B</label>
-          <input type="text" ng-model="teamB" id="teamB" class="form-control">
-        </div>
+        <!-- Socket.io -->
+        <script type="text/javascript" src="http://vexxhost.com/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="http://vexxhost.com/lib/angular-socket-io/socket.min.js"></script>
 
-        <button ng-click="save()" class="btn btn-primary btn-xs">Create</button>
+        <!-- Templates -->
+        <script type="text/ng-template" id="/games.html">
 
-      </div>
-    </script>
+          <div class="content__wrapper">
 
-    <script type="text/ng-template" id="/gameDetails.html">
+          <div class="form">
 
-      <div class="container form">
+            <div class="form__search">
+              <label for="search" class="input__label">Search</label>
+              <input type="text" ng-model="search.name" id="search" class="input__text">
+            </div>
 
-        <h2 class="">{{game.name}}</h2>
+            <ul>
+              <li ng-repeat="game in games | filter: search">
 
-        <div class="teamInfo">
+                <blockquote>
 
-          <p class="lead">{{game.teamA}}</p>
+                  <a ng-show="!editing[$index]" href="#/{{game._id}}">{{game.name}}</a>
+                  <button ng-show="!editing[$index]" ng-click="edit($index)" class="btn btn__primary">Edit</button>
 
-          <div class="form-group">
+                  <input ng-show="editing[$index]" type="text" ng-model="game.name" class="input__text">
+                  <button ng-show="editing[$index]" ng-click="update($index)" class="btn btn__success">Update</button>
+                  <button ng-show="editing[$index]" ng-click="cancel($index)" class="btn btn__warning">Cancel</button>
+                  <button ng-show="!editing[$index]" ng-click="remove($index)" class="btn btn__danger">Remove</button>
 
-            <label for="gameName" class="input_label">Goals</label>
+                </blockquote>
 
-            <button ng-click="scoreAmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.scoreA}}</p>
-            <button ng-click="scoreAplus()" class="btn btn-success btn-xs inline">+</button>
-
-          </div>
-
-          <div class="form-group">
-
-            <label class="input_label">Shots</label>
-
-            <button ng-click="shotsAmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.shotsA}}</p>
-            <button ng-click="shotsAplus()" class="btn btn-success btn-xs inline">+</button>
+              </li>
+            </ul>
 
           </div>
 
-          <div class="form-group">
 
-            <label class="input_label">Fauls</label>
+          <div class="form">
 
-            <button ng-click="faulsAmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.faulsA}}</p>
-            <button ng-click="faulsAplus()" class="btn btn-success btn-xs inline">+</button>
+            <p class="form__title">New game</p>
 
-          </div>
+            <div class="form__group">
+              <label for="gameName" class="input__label">Game name</label>
+              <input type="text" ng-model="gameName" id="gameName" class="input__text">
+            </div>
 
-        </div>
+            <div class="form__group">
+              <label for="teamA" class="input__label">Team A</label>
+              <input type="text" ng-model="teamA" id="teamA" class="input__text">
+            </div>
 
-        <div class="teamInfo">
+            <div class="form__group">
+              <label for="teamB" class="input__label">Team B</label>
+              <input type="text" ng-model="teamB" id="teamB" class="input__text">
+            </div>
 
-          <p class="lead">{{game.teamB}}</p>
-
-          <div class="form-group">
-
-            <label for="gameName" class="input_label">Goals</label>
-
-            <button ng-click="scoreBmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.scoreB}}</p>
-            <button ng-click="scoreBplus()" class="btn btn-success btn-xs inline">+</button>
+            <button ng-click="save()" class="btn btn__primary">Create</button>
 
           </div>
-
-          <div class="form-group">
-
-            <label class="input_label">Shots</label>
-
-            <button ng-click="shotsBmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.shotsB}}</p>
-            <button ng-click="shotsBplus()" class="btn btn-success btn-xs inline">+</button>
-
-          </div>
-
-          <div class="form-group">
-
-            <label class="input_label">Fauls</label>
-
-            <button ng-click="faulsBmin()" class="btn btn-danger btn-xs inline">-</button>
-            <p class="inline">{{game.faulsB}}</p>
-            <button ng-click="faulsBplus()" class="btn btn-success btn-xs inline">+</button>
-
-          </div>
-
-        </div>
-
-        <div class="clearFix"></div>
-
-        <div class="form-group">
-
-          <label class="input_label">Comments</label>
-
-          <ul class="container list-unstyled">
-
-            <li ng-repeat=" comment in game.comments">
-
-              <blockquote>
-
-                <p>{{comment.value}}</p>
-
-              </blockquote>
-
-            </li>
-
-          </ul>
-
-          <input type="text" ng-model="commentValue">
-          <button ng-click="sendComment()" class="btn btn-primary btn-xs">Send</button>
-
-        </div>
-
-
-
-
-
 
       </div>
 
-    </script>
+      </script>
+
+      <script type="text/ng-template" id="/gameDetails.html">
+
+        <div class="page">
+
+          <h2 class="">{{game.name}}</h2>
+
+          <div class="content__wrapper">
+
+            <div class="container">
+
+              <p class="form__title">{{game.teamA}}</p>
+
+              <div class="form__group">
+
+                <label for="gameName" class="input__label">Goals</label>
+                <button ng-click="scoreAmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.scoreA}}</p>
+                <button ng-click="scoreAplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Shots</label>
+                <button ng-click="shotsAmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.shotsA}}</p>
+                <button ng-click="shotsAplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Fauls</label>
+                <button ng-click="faulsAmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.faulsA}}</p>
+                <button ng-click="faulsAplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+            </div>
+
+            <div class="container">
+
+              <p class="form__title">{{game.teamB}}</p>
+
+              <div class="form__group">
+
+                <label for="gameName" class="input__label">Goals</label>
+                <button ng-click="scoreBmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.scoreB}}</p>
+                <button ng-click="scoreBplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Shots</label>
+                <button ng-click="shotsBmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.shotsB}}</p>
+                <button ng-click="shotsBplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+              <div class="form__group">
+
+                <label class="input__label">Fauls</label>
+                <button ng-click="faulsBmin()" class="btn btn__danger btn__small">-</button>
+                <p class="game__info__counter">{{game.faulsB}}</p>
+                <button ng-click="faulsBplus()" class="btn btn__success btn__small">+</button>
+
+              </div>
+
+            </div>
+
+            <div class="container container__comments">
+
+              <div class="form__group">
+
+                <label class="input__label">Comments</label>
+                <ul class="comments__list">
+                  <li ng-repeat=" comment in game.comments">
+                    <blockquote>
+                      <p>{{comment.value}}</p>
+                    </blockquote>
+                  </li>
+                </ul>
+
+              </div>
+
+              <div class="form__group">
+
+                <input type="text" id="commentValue" class="input__text" ng-model="commentValue" ng-keyup="$event.keyCode == 13 && sendComment()">
+                <button ng-click="sendComment()" class="btn btn__primary">Send</button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </script>
 
     <script>
+
       angular.module('app', ['ngRoute', 'ngResource'])
 
         //---------------
@@ -198,6 +214,7 @@
         // Controllers
         //---------------
 
+        //.controller('GameController', ['$scope', 'Games', 'Socket', function ($scope, Games, Socket) {
         .controller('GameController', ['$scope', 'Games', function ($scope, Games) {
           $scope.editing = [];
           $scope.games = Games.query();
@@ -243,13 +260,23 @@
               $scope.games.splice(index, 1);
             });
           }
+
+          // SOCKETS ////////////////////////
+          /*
+          Socket.on('game.created', function(index) {
+            var game = $scope.games[index];
+            console.log(article);
+          });
+          */
+          ///////////////////////////////////
+
         }])
 
         .controller('GameDetailCtrl', ['$scope', '$routeParams', 'Games', '$location', function ($scope, $routeParams, Games, $location) {
           $scope.game = Games.get({id: $routeParams.id });
 
 
-          // SCORE
+          // SCORE /////////////////////////
           $scope.scoreAplus = function(){
             $scope.game.scoreA ++;
             $scope.update();
@@ -269,9 +296,9 @@
             $scope.game.scoreB --;
             $scope.update();
           }
+          ///////////////////////////////////
 
-
-          // SHOTS
+          // SHOTS //////////////////////////
           $scope.shotsAplus = function(){
             $scope.game.shotsA ++;
             $scope.update();
@@ -291,8 +318,9 @@
             $scope.game.shotsB --;
             $scope.update();
           }
+          ///////////////////////////////////
 
-          // FAULS
+          // FAULS //////////////////////////
           $scope.faulsAplus = function(){
             $scope.game.faulsA ++;
             $scope.update();
@@ -312,27 +340,34 @@
             $scope.game.faulsB --;
             $scope.update();
           }
+          ///////////////////////////////////
 
-          // COMMENTS
+
+          // COMMENTS ///////////////////////
           $scope.sendComment = function(){
             var i = {};
             i.value =  $scope.commentValue;
             $scope.game.comments.push(i);
+            $scope.commentValue = ''; // clear textbox
             $scope.update();
-            $scope.commentValue = '';
           }
+          ///////////////////////////////////
 
-
+          // UPDATE /////////////////////////
           $scope.update = function(){
             var game = $scope.game;
             Games.update({id: $routeParams.id }, game);
           }
+          ///////////////////////////////////
 
+          // REMOVE /////////////////////////
           $scope.remove = function(){
             Games.remove({id: $scope.game._id}, function(){
               $location.url('/');
             });
           }
+          ///////////////////////////////////
+
         }])
 
         //---------------
@@ -352,5 +387,8 @@
            });
         }]);
     </script>
+
+    <script src="scripts/main.js"></script>
+
   </body>
 </html>
